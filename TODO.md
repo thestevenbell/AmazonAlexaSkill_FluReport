@@ -1,25 +1,9 @@
-## List of needed files:
-- intent schema = flow of logic in Voice User Interface
-- sample utterances = spoken phrases to illicit responses
-- list of values for any custom slot types
-
-### intents: 
-	- ListStatesWithFluOutbreakIntent
-	- GetFluLevelByStateIntent
-	- AskToGetFluLevelByStateIntent
-
 ## TODO:
-- figure out null pointer bug in the getStateReport
-- After publishing, Sign up to get AWS Hoodie: https://developer.amazon.com/alexa-skills-kit/alexa-developer-skill-promotion
-- Diagram the Voice Interface
-- rename the project
-- push to gitHub, but first:
-	- create .gitignore
-		- add target IDE and .DS files 
-	- change the remote and origin to my gitHub account
-
-      
-- *xml parser example:* http://seleniummaster.com/sitecontent/index.php/java-tutorial/java-xml/291-parse-xml-file-java-jackson
+- rework the question at the end of the intro to be more clear about what the user should ask next, as it sounds now
+it begs a yes/no response.  Decide if a yes/no is what is wanted, if so, then prompt after yes for the user to then 
+ask for a state specific report or the list.  Otherwise, make the intro explicitly ask the user to ask for either report.
+- Rework this diagram in Powerpoint.  Diagram the Voice Interface
+- Think about renaming the project as Alexa is confusing report for a weather report.
 
 ### COMPLETED
 - Research CDC open URL APIs for getting Flu and Illness Data
@@ -36,6 +20,11 @@
       		- set up a reportDataPOJO to hold the string and a date/time stamp. make getter and setters for each element in report data
       		- Make call to webservice to get report data
       		- set report data to reportDataPOJO and Set the date/time to present.
+- push to gitHub, but first:
+	- create .gitignore
+		- add target IDE and .DS files 
+	- change the remote and origin to my gitHub account
+
  
 
       
