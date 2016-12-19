@@ -18,6 +18,11 @@ ListStatesWithFluOutbreakIntent tell me the states
 ListStatesWithFluOutbreakIntent tell me where the flu is widespread
 ListStatesWithFluOutbreakIntent tell me the states with the flu
 ListStatesWithFluOutbreakIntent in which states is the flu widespread
+// add below to the Alexa Skill after certification
+ListStatesWithFluOutbreakIntent where is the flu widespread
+ListStatesWithFluOutbreakIntent tell me which states have the flu
+ListStatesWithFluOutbreakIntent which states have widespread flu
+ListStatesWithFluOutbreakIntent give me the list of states with the flu
 
 GetFluLevelByStateIntent give me the flu report for {State}
 GetFluLevelByStateIntent I would like a State flu report for Guam.

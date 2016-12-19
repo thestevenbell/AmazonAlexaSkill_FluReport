@@ -58,7 +58,9 @@ public class XMLPAXParseWebCall {
 		    	Element stateElement = (Element)firstNameList.item(i);
 		    	NodeList textStateAbbrevList = stateElement.getChildNodes();
 			    log.debug("State/abbrev : " +  ((Node)textStateAbbrevList.item(0)).getNodeValue().trim());
-		    	listOfStatesWithFlu.add(((Node)textStateAbbrevList.item(0)).getNodeValue().trim());
+			    String abbrevStateWithWidespreadFlu = ((Node)textStateAbbrevList.item(0)).getNodeValue().trim();
+			    String fullNameStateWithWidespreadFlu = convertStateIntentToStateEnum(abbrevStateWithWidespreadFlu);
+		    	listOfStatesWithFlu.add(fullNameStateWithWidespreadFlu);
 		    }
 	    }
 		return listOfStatesWithFlu;
@@ -176,6 +178,7 @@ public class XMLPAXParseWebCall {
     	String stateSlotString = stateAbbrev.toString().toUpperCase();
     	if(!stateSlotString.equals(null)){
     		String fullStateName = States.parse(stateSlotString).toString().toUpperCase();
+    		fullStateName = fullStateName.replace("_", " ");
     		return fullStateName;
     	}else{
     		return stateAbbrev.toString().toUpperCase();
