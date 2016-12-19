@@ -261,10 +261,11 @@ public class FluReportSpeechlet implements Speechlet {
         listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("[", "");
         listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("]", "");
         String subtitle = mostRecentReportNode.getAttributes().getNamedItem("subtitle").getNodeValue().toString();
-
+        System.out.println("In ListStatesWithFluOutbreakIntent();" );
         String speechPrefixContent = "<p>For the " + subtitle + "</p> ";
         String cardPrefixContent = "The CDC reports that the prevalence of the flu is widespread "
         		+ "in the following states " + listOfStatesWithWidespreadFlu;
+        System.out.println("listOfStatesWithWidespreadFlu: " + listOfStatesWithWidespreadFlu);
         String cardTitle = "Flu Report, States with widespread flu"; 
         String speechOutput = "The CDC reports that the prevalence of the flu is widespread "
         		+ "in the following states " + listOfStatesWithWidespreadFlu;
@@ -290,6 +291,7 @@ public class FluReportSpeechlet implements Speechlet {
             speechOutputBuilder.append(speechOutput);
             speechOutputBuilder.append(askForNextStep);
             speechOutput = speechOutputBuilder.toString();
+            System.out.println("speechOutput FINAL: " + speechOutput );
             
             StringBuilder cardOutputBuilder = new StringBuilder();
             cardOutputBuilder.append(cardPrefixContent);

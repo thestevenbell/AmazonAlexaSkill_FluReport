@@ -23,6 +23,9 @@ ListStatesWithFluOutbreakIntent where is the flu widespread
 ListStatesWithFluOutbreakIntent tell me which states have the flu
 ListStatesWithFluOutbreakIntent which states have widespread flu
 ListStatesWithFluOutbreakIntent give me the list of states with the flu
+ListStatesWithFluOutbreakIntent list of states with widespread flu
+ListStatesWithFluOutbreakIntent give me the states with widespread flu
+ListStatesWithFluOutbreakIntent which states have widespread flu
 
 GetFluLevelByStateIntent give me the flu report for {State}
 GetFluLevelByStateIntent I would like a State flu report for Guam.
