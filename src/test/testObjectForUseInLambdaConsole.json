@@ -1,0 +1,29 @@
+{
+  "session": {
+    "sessionId": "SessionId.d671379a-5deb-44b2-812e-3a4ddfcfc05a",
+    "application": {
+      "applicationId": "amzn1.ask.skill.[<ommitted>]"
+    },
+    "attributes": {},
+    "user": {
+      "userId": "amzn1.ask.account.[<ommitted>]"
+    },
+    "new": true
+  },
+  "request": {
+    "type": "IntentRequest",
+    "requestId": "EdwRequestId.[<ommitted>]",
+    "locale": "en-US",
+    "timestamp": "2016-12-18T18:25:57Z",
+    "intent": {
+      "name": "GetFluLevelByStateIntent",
+      "slots": {
+        "State": {
+          "name": "State",
+          "value": "Georgia"
+        }
+      }
+    }
+  },
+  "version": "1.0"
+}

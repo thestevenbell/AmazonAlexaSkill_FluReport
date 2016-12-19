@@ -1,0 +1,56 @@
+
+ListStatesWithFluOutbreakIntent where's the flu
+ListStatesWithFluOutbreakIntent which states have a flu outbreak
+ListStatesWithFluOutbreakIntent where's the flu bad
+ListStatesWithFluOutbreakIntent where is the flu bad
+ListStatesWithFluOutbreakIntent list states with a flu outbreak
+ListStatesWithFluOutbreakIntent give me the flu report
+ListStatesWithFluOutbreakIntent flu report please
+ListStatesWithFluOutbreakIntent states with the flu
+ListStatesWithFluOutbreakIntent where's the flu
+ListStatesWithFluOutbreakIntent where is the flu
+ListStatesWithFluOutbreakIntent the flu is in which states
+ListStatesWithFluOutbreakIntent i'd like to hear the national report
+ListStatesWithFluOutbreakIntent give the national report
+ListStatesWithFluOutbreakIntent tell me the list of states with widespread flu
+ListStatesWithFluOutbreakIntent i'd like the list
+ListStatesWithFluOutbreakIntent tell me the states 
+ListStatesWithFluOutbreakIntent tell me where the flu is widespread
+ListStatesWithFluOutbreakIntent tell me the states with the flu
+ListStatesWithFluOutbreakIntent in which states is the flu widespread
+
+GetFluLevelByStateIntent give me the flu report for {State}
+GetFluLevelByStateIntent I would like a State flu report for Guam.
+GetFluLevelByStateIntent is the flu bad in {State}
+GetFluLevelByStateIntent what level is the flu at in {State}
+GetFluLevelByStateIntent give me the flu outbreak details for {State}
+GetFluLevelByStateIntent has the flu made it to {State} yet
+GetFluLevelByStateIntent flu report for {State}
+GetFluLevelByStateIntent how serious is the flu in {State}
+GetFluLevelByStateIntent does the {State} have the flu
+GetFluLevelByStateIntent what is the flu level in {State} 
+GetFluLevelByStateIntent what's the flu prevalence in {State}
+GetFluLevelByStateIntent what is the flu prevalence in {State}
+
+AMAZON.StopIntent no
+AMAZON.StopIntent nope
+AMAZON.StopIntent no thanks
+AMAZON.StopIntent no thank you
+
+
+// NOT YET IMPLEMENTED, DO NOT INCLUDE IN SKILL CONSOLE 
+AskToListStatesWithFluOutbreakIntent yes 
+AskToListStatesWithFluOutbreakIntent yup
+AskToListStatesWithFluOutbreakIntent sure
+AskToListStatesWithFluOutbreakIntent yes please
+AskToListStatesWithFluOutbreakIntent uh huh
+AskToListStatesWithFluOutbreakIntent affirmative
+AskToListStatesWithFluOutbreakIntent please
+
+AskToGetFluLevelByStateIntent yes
+AskToGetFluLevelByStateIntent yup
+AskToGetFluLevelByStateIntent sure
+AskToGetFluLevelByStateIntent yes please
+AskToGetFluLevelByStateIntent uh huh
+AskToGetFluLevelByStateIntent affirmative
+AskToGetFluLevelByStateIntent please

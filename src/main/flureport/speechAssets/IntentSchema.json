@@ -1,0 +1,28 @@
+{
+  "intents": [
+    {
+      "intent": "GetFluLevelByStateIntent",
+      "slots": [
+        {
+          "name": "State",
+          "type": "AMAZON.US_STATE"
+        }
+      ]
+    },
+    {
+      "intent": "ListStatesWithFluOutbreakIntent"
+    },
+    {
+      "intent": "GetNextEventIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    }
+  ]
+}
