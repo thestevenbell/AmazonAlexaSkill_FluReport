@@ -1,4 +1,3 @@
-
 ListStatesWithFluOutbreakIntent where's the flu
 ListStatesWithFluOutbreakIntent which states have a flu outbreak
 ListStatesWithFluOutbreakIntent where's the flu bad
@@ -10,7 +9,6 @@ ListStatesWithFluOutbreakIntent states with the flu
 ListStatesWithFluOutbreakIntent where's the flu
 ListStatesWithFluOutbreakIntent where is the flu
 ListStatesWithFluOutbreakIntent the flu is in which states
-ListStatesWithFluOutbreakIntent i'd like to hear the national report
 ListStatesWithFluOutbreakIntent give the national report
 ListStatesWithFluOutbreakIntent tell me the list of states with widespread flu
 ListStatesWithFluOutbreakIntent i'd like the list
@@ -18,7 +16,6 @@ ListStatesWithFluOutbreakIntent tell me the states
 ListStatesWithFluOutbreakIntent tell me where the flu is widespread
 ListStatesWithFluOutbreakIntent tell me the states with the flu
 ListStatesWithFluOutbreakIntent in which states is the flu widespread
-// add below to the Alexa Skill after certification
 ListStatesWithFluOutbreakIntent where is the flu widespread
 ListStatesWithFluOutbreakIntent tell me which states have the flu
 ListStatesWithFluOutbreakIntent which states have widespread flu
@@ -26,9 +23,39 @@ ListStatesWithFluOutbreakIntent give me the list of states with the flu
 ListStatesWithFluOutbreakIntent list of states with widespread flu
 ListStatesWithFluOutbreakIntent give me the states with widespread flu
 ListStatesWithFluOutbreakIntent which states have widespread flu
+ListStatesWithFluOutbreakIntent where's the influenza
+ListStatesWithFluOutbreakIntent which states have a influenza outbreak
+ListStatesWithFluOutbreakIntent where's the influenza bad
+ListStatesWithFluOutbreakIntent where is the influenza bad
+ListStatesWithFluOutbreakIntent list states with a influenza outbreak
+ListStatesWithFluOutbreakIntent give me the influenza report
+ListStatesWithFluOutbreakIntent influenza report please
+ListStatesWithFluOutbreakIntent states with the influenza
+ListStatesWithFluOutbreakIntent where's the influenza
+ListStatesWithFluOutbreakIntent where is the influenza
+ListStatesWithFluOutbreakIntent the influenza is in which states
+ListStatesWithFluOutbreakIntent give the national report
+ListStatesWithFluOutbreakIntent tell me the list of states with widespread influenza
+ListStatesWithFluOutbreakIntent i'd like the list
+ListStatesWithFluOutbreakIntent tell me the states 
+ListStatesWithFluOutbreakIntent tell me where the influenza is widespread
+ListStatesWithFluOutbreakIntent tell me the states with the influenza
+ListStatesWithFluOutbreakIntent in which states is the influenza widespread
+ListStatesWithFluOutbreakIntent where is the influenza widespread
+ListStatesWithFluOutbreakIntent tell me which states have influenza
+ListStatesWithFluOutbreakIntent which states have widespread influenza
+ListStatesWithFluOutbreakIntent give me the list of states with influenza
+ListStatesWithFluOutbreakIntent list of states with widespread influenza
+ListStatesWithFluOutbreakIntent give me the states with widespread influenza
+ListStatesWithFluOutbreakIntent which states have widespread influenza
+ListStatesWithFluOutbreakIntent give me the list of states where the flu is widespread
+ListStatesWithFluOutbreakIntent give me the list of states where influenza is widespread
 
+GetFluLevelByStateIntent what is the influenza information for {State}
+GetFluLevelByStateIntent what is the influenza report for {State}
+GetFluLevelByStateIntent what is the flu report for {State}
 GetFluLevelByStateIntent give me the flu report for {State}
-GetFluLevelByStateIntent I would like a State flu report for Guam.
+GetFluLevelByStateIntent I would like a State flu report for {State}
 GetFluLevelByStateIntent is the flu bad in {State}
 GetFluLevelByStateIntent what level is the flu at in {State}
 GetFluLevelByStateIntent give me the flu outbreak details for {State}
@@ -38,13 +65,32 @@ GetFluLevelByStateIntent how serious is the flu in {State}
 GetFluLevelByStateIntent does the {State} have the flu
 GetFluLevelByStateIntent what is the flu level in {State} 
 GetFluLevelByStateIntent what's the flu prevalence in {State}
-GetFluLevelByStateIntent what is the flu prevalence in {State}
+GetFluLevelByStateIntent what is the influenza prevalence in {State}
+GetFluLevelByStateIntent give me the influenza report for {State}
+GetFluLevelByStateIntent I would like a State influenza report for {State}
+GetFluLevelByStateIntent is the influenza bad in {State}
+GetFluLevelByStateIntent what level is the influenza at in {State}
+GetFluLevelByStateIntent give me the influenza outbreak details for {State}
+GetFluLevelByStateIntent has the influenza made it to {State} yet
+GetFluLevelByStateIntent influenza report for {State}
+GetFluLevelByStateIntent how serious is the influenza in {State}
+GetFluLevelByStateIntent does the {State} have the influenza
+GetFluLevelByStateIntent what is the influenza level in {State} 
+GetFluLevelByStateIntent what's the influenza prevalence in {State}
+GetFluLevelByStateIntent what is the influenza prevalence in {State}
 
 AMAZON.StopIntent no
 AMAZON.StopIntent nope
 AMAZON.StopIntent no thanks
 AMAZON.StopIntent no thank you
+AMAZON.StopIntent stop
+AMAZON.StopIntent quit
+AMAZON.StopIntent break
 
+/********
+DO NOT USE BELOW
+********/
+ListStatesWithFluOutbreakIntent i'd like to hear the national report ///////<-----REMOVED(tries to play music)
 
 // NOT YET IMPLEMENTED, DO NOT INCLUDE IN SKILL CONSOLE 
 AskToListStatesWithFluOutbreakIntent yes 

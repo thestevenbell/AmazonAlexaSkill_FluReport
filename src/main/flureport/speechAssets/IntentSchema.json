@@ -13,9 +13,6 @@
       "intent": "ListStatesWithFluOutbreakIntent"
     },
     {
-      "intent": "GetNextEventIntent"
-    },
-    {
       "intent": "AMAZON.HelpIntent"
     },
     {

@@ -26,7 +26,7 @@ public final class fluReportCDCXML  {
        // Exists only to defeat instantiation.
     }
     
-// returns same instance for each thread
+    // returns same instance for each thread
     public static fluReportCDCXML getInstance() {
        if(instance == null) {
           instance = new fluReportCDCXML();
@@ -34,48 +34,54 @@ public final class fluReportCDCXML  {
        return instance;
     }
     
-	public Document getFluReport() {
-		try {
-			System.out.println(" compare time: isGreaterThan24Hours(" + isGreaterThan24Hours(timeOfLastCDCAPICall) + ")");
-			if(doc == null || isGreaterThan24Hours(timeOfLastCDCAPICall)){
-				System.out.println("fetching new Flu Report");
-				doc = loadXMLDocument();
-			}
-			if(doc != null){
-			// normalize text representation
-			   doc.getDocumentElement().normalize();
-			   System.out.println("Root element of the doc is " + doc.getDocumentElement().getNodeName());
-			   NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
-			   int NumberTimePeriods = listOfTimeperiods.getLength();
-			   System.out.println("Total no of timeperiods : " + NumberTimePeriods);
-			}
-		}catch (SAXParseException err) {
-			System.out.println ("** Parsing error" + ", line " 
-                + err.getLineNumber () + ", uri " + err.getSystemId());
-           System.out.println("Error message: " + err.getMessage());
-           err.printStackTrace();
+    /**
+     * Makes a HTTPS web call to the CDC API to retrieve the flu report .xml file.
+     * 
+     * @return Document
+     */
+    public Document getFluReport() {
+    	try {
+    		System.out.println(" compare time: isGreaterThan24Hours(" + isGreaterThan24Hours(timeOfLastCDCAPICall) + ")");
+    		if(doc == null || isGreaterThan24Hours(timeOfLastCDCAPICall)){
+    			timeOfLastCDCAPICall = DateTime.now();
+    			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+    			factory.setNamespaceAware(true);
+    			//	return factory.newDocumentBuilder().parse(new File("src/test/input.xml"));
+    			//	TODO - uncomment below for production  
+    			System.out.println("fetching new Flu Report");
+    			doc = factory.newDocumentBuilder().parse(new URL("https://www.cdc.gov/flu/weekly/flureport.xml").openStream());
+    		}
+    		if(doc != null){
+    			// normalize text representation
+    			doc.getDocumentElement().normalize();
+    			System.out.println("Root element of the doc is " + doc.getDocumentElement().getNodeName());
+    			NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
+    			int NumberTimePeriods = listOfTimeperiods.getLength();
+    			System.out.println("Total no of timeperiods : " + NumberTimePeriods);
+    		}
 
-       }catch (SAXException e) {
-    	   Exception x = e.getException ();
-    	   ((x == null) ? e : x).printStackTrace ();
-       }catch (Throwable t) {
-    	   t.printStackTrace ();
-       }
-		return doc;
-	}
-	   
-	private static Document loadXMLDocument() throws IOException, SAXException, ParserConfigurationException {
-		System.out.println("^^^^^^^^^^^^^loadXMLDocument() REACHED");
-		timeOfLastCDCAPICall = DateTime.now();
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		factory.setNamespaceAware(true);
-//		return factory.newDocumentBuilder().parse(new File("src/test/input.xml"));
-//		TODO - uncomment below for production, figure out how to make this webcall function.  
-//		if needed, make a call to the CDC and save the call locally in a variable to be accessed later.  
-		return factory.newDocumentBuilder().parse(new URL("https://www.cdc.gov/flu/weekly/flureport.xml").openStream());
-	}
-	    
-
+    	}catch (SAXParseException err) {
+    		System.out.println ("** Parsing error" + ", line " + err.getLineNumber () + ", uri " + err.getSystemId());
+    		System.out.println("Error message: " + err.getMessage());
+    		err.printStackTrace();
+    	}catch (SAXException e) {
+    		Exception x = e.getException ();
+    		((x == null) ? e : x).printStackTrace ();
+    	}catch (Throwable t) {
+    		t.printStackTrace ();
+    	}
+    	return doc;
+    }
+	
+    /**	
+     * Function to determine if the last time the CDC API was accessed.
+     * If the time of the last access is null or greater than 24 hours
+     * then a new call will be made so that the report information
+     * will not be older than 24 hours.  
+     * 
+     * @param timeOfLastCDCAPICall
+     * @return Boolean
+     */
     private static Boolean isGreaterThan24Hours(DateTime timeOfLastCDCAPICall){
 //			uncomment for testing (sets the time to greater than 24 hours ago to force new api call
 //	    	DateTime TESTINGtimeOfLastCDCAPICall = DateTime.now().minusHours(27);

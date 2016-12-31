@@ -13,38 +13,28 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.amazon.speech.slu.Slot;
-
     
 public class XMLPAXParseWebCall {
 	private static final Logger log = LoggerFactory.getLogger(FluReportSpeechlet.class);
 	
 //	for testing XML logic, uncomment main and run as java application
+	static fluReportCDCXML fluReport = fluReportCDCXML.getInstance();
+	public static void main(String[] args){
+		// surrogate for main method (no main needed as the handler is the starting point for 
+		// code execution.
+		Document doc = fluReport.getFluReport();
+		NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
+	    Node mostRecentReportNode = XMLPAXParseWebCall.getMostRecentNode(listOfTimeperiods);
+	    String subtitle = mostRecentReportNode.getAttributes().getNamedItem("subtitle").getNodeValue().toString();
+	    System.out.println("Subtitle: " + subtitle);
+	    String state = "PR";
+	    System.out.println("Prevalence of Flu in "+state + ". "+ XMLPAXParseWebCall.getStateReport( state, mostRecentReportNode) );
+	    String listOfStatesWithWidespreadFlu = XMLPAXParseWebCall.getListStatesWithFlu(mostRecentReportNode).toString();
+	    listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("[", "");
+	    listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("]", "");
+	}
 	
-    public static void main (String argv []){
-    try {
-    	fluReportCDCXML fluReport = fluReportCDCXML.getInstance();
-    	Document doc = fluReport.getFluReport();
-    	NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
-//	    int NumberTimePeriods = listOfTimeperiods.getLength();
-        Node mostRecentReportNode = getMostRecentNode(listOfTimeperiods);
-        String subtitle = mostRecentReportNode.getAttributes().getNamedItem("subtitle").getNodeValue().toString();
-        System.out.println("Subtitle: " + subtitle);
-        String state = "GUAM";
-        
-        System.out.println("Prevalence of Flu in "+state + ". "+ getStateReport( state, mostRecentReportNode) );
-        String listOfStatesWithWidespreadFlu = getListStatesWithFlu(mostRecentReportNode).toString();
-        listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("[", "");
-        listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("]", "");
-        System.out.println("list of flu states: " + listOfStatesWithWidespreadFlu );
-        
-        }catch (Throwable t) {
-        t.printStackTrace ();
-        }
-        //System.exit (0);
-    }//end of main
-    
-    static List<String> getListStatesWithFlu(Node mostRecentReportNode){
+    public static List<String> getListStatesWithFlu(Node mostRecentReportNode){
 		List<String> listOfStatesWithFlu = new ArrayList<String>();
 		Element timePeriodElement = (Element)mostRecentReportNode;
 
@@ -66,20 +56,21 @@ public class XMLPAXParseWebCall {
 		return listOfStatesWithFlu;
     }
 
-	static String getStateReport(String state, Node mostRecentReportNode){
-    	String fluStatus = null;
+	public static String getStateReport(String state, Node mostRecentReportNode){
+    	String fluStatus = "not found";
     	Element timePeriodElement = (Element)mostRecentReportNode;
     	NodeList abbrevStateList = timePeriodElement.getElementsByTagName("abbrev");
 		int numOfNodes = timePeriodElement.getElementsByTagName("abbrev").getLength();
 //    	log.debug("num of nodes: " + numOfNodes);
     	for(int i=0; i < numOfNodes ;i++){
-    		// TODO - check for the listing matching the state and return the flustatus attribute.  
+    		// check for the listing matching the state and return the flustatus attribute.  
 	        Element stateElement = (Element)abbrevStateList.item(i);
 	        NodeList textStateAbbrevList = stateElement.getChildNodes();
 	        String stateAbbrev = ((Node)textStateAbbrevList.item(0)).getNodeValue().trim().toString();
 //	        log.debug("State Abbrev : " + stateAbbrev);
-	        String standardizedStateNameFromXML = convertStateIntentToStateEnum(stateAbbrev) ;
-			if(standardizedStateNameFromXML.equals(state)){
+	        String standardizedStateNameFromXML = convertStateIntentToStateEnum(stateAbbrev).trim() ;
+			if(standardizedStateNameFromXML.equalsIgnoreCase(state)){
+				System.out.println("standardizedStateNameFromXML.equals(state): " + state );
 	        	NodeList labelList = timePeriodElement.getElementsByTagName("label");
 	            Element ageElement = (Element)labelList.item(0);
 	            NodeList textlabelList = ageElement.getChildNodes();
@@ -91,21 +82,14 @@ public class XMLPAXParseWebCall {
     		 
     	return fluStatus;
     }
-    
-    // TODO -in case of returned error or bad data, do retry logic, if call does not return, try again after some short
-    // interval.  
-  
+
     /*
      *returns the node containing the most recent report, checks timestamp field to determine if the in memory report is 
      *greater than 24 hours old, if so, a new call will be made to update the report.  This logic was implemented to 
      *keep web traffic to a minimum.  
      *@param Nodelist nodelist
     */
-    static Node getMostRecentNode ( NodeList nodelist ) {
-    	// TODO - finish writing this logic to return the most recent node
-    	// TODO - do null checks to prevent exceptions
-    	// TODO - write logic to sense the year and return the most up to date only for the current year, 
-    	// if none in current year only then go to the prior year
+    public static Node getMostRecentNode ( NodeList nodelist ) {
     	Node mostRecentNode;
     	int indexOfMostRecentNodeCurrentYear = 0;
     	int indexOfMostRecentNodeLastYear = 0;

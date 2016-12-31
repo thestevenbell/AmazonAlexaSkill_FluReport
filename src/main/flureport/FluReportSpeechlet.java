@@ -29,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -59,8 +60,8 @@ import com.amazon.speech.ui.SimpleCard;
  * This sample shows how to create a Lambda function for handling Alexa Skill requests that:
  * 
  * <ul>
- * <li><b>Web service</b>: communicate with an external web service to get the flu report for specified state 
- * or the states with flu outbreaks. 
+ * <li><b>Web service</b>: communicate with an external web service to get the influenza report for specified state 
+ * or the states with influenza outbreaks. 
  * </li>
  * </li>
  * <p>
@@ -73,9 +74,9 @@ import com.amazon.speech.ui.SimpleCard;
  * <p>
  * <b>One-shot model</b>
  * <p>
- * User: "Alexa, ask Flu Report what the flu status is for Puerto Rico."
+ * User: "Alexa, ask Influenza Information what the influenza status is for Puerto Rico."
  * <p>
- * Alexa: "The CDC report that flu is Widespread in Puerto Rico . Wanna know about another state?"
+ * Alexa: "The CDC report that influenza is Widespread in Puerto Rico . Wanna know about another state?"
  * <p>
  * User: "No."
  * <p>
@@ -84,25 +85,25 @@ import com.amazon.speech.ui.SimpleCard;
  * 
  * <b>Dialog model</b>
  * <p>
- * User: "Alexa, open Flu Report"
+ * User: "Alexa, open Influenza Information"
  * <p>
- * Alexa: ""Hi, Flu Report can tell you the level of flu in each state or get you a list of 
- * states where the CDC has classified the level of flu as widespread.  Would you like to get 
- * a State flu report or to know which states have widespread flu?";"
+ * Alexa: ""Hi, Influenza Information can tell you the level of influenza in each state or get you a list of 
+ * states where the CDC has classified the level of influenza as widespread.  Would you like to get 
+ * a State influenza report or to know which states have widespread influenza?";"
  * <p>
- * User: "I would like a State flu report for Guam."
+ * User: "I would like a State influenza report for Guam."
  * <p>
- * Alexa: "The CDC reports that the flu is Widespread in Guam. Would you like the list of states where 
- * the flu is widespread?"
+ * Alexa: "The CDC reports that the influenza is Widespread in Guam. Would you like the list of states where 
+ * the influenza is widespread?"
  * <p>
  * User: "Yes."
  * <p>
- * Alexa: "The flu is reported by the CDC to be widespread in Guam, Puerto Rico and the Virgin Islands. 
- * Would you like to get a flu report for a specific state?"
+ * Alexa: "The influenza is reported by the CDC to be widespread in Guam, Puerto Rico and the Virgin Islands. 
+ * Would you like to get a influenza report for a specific state?"
  * <p>
  * User: "No."
  * <p>
- * Alexa: "Ok, Flu Report signing out. Good bye!"
+ * Alexa: "Ok, Influenza Information signing out. Good bye!"
  * <p>
  */
 public class FluReportSpeechlet implements Speechlet {
@@ -120,7 +121,7 @@ public class FluReportSpeechlet implements Speechlet {
     private static final String SESSION_TEXT = "text";
 
     /**
-     * Constant defining session attribute key for the intent slot key for the State for which a Flu Report is requested.
+     * Constant defining session attribute key for the intent slot key for the State for which a Influenza Information is requested.
      */
     private static final String SLOT_STATE = "State";
     
@@ -146,11 +147,10 @@ public class FluReportSpeechlet implements Speechlet {
     public SpeechletResponse onIntent(final IntentRequest request, final Session session)
             throws SpeechletException {
         System.out.println("onIntent requestId={ "+  request.getRequestId() +" }, sessionId={" + session.getSessionId() + "}" );
-
         Intent intent = request.getIntent();
         String intentName = intent.getName();
         System.out.println("INTENT NAME:" + intentName);
-// TODO populate the else if below with intents
+// TODO populate the else if below with all intents
 // intent factory, list the intents created here 
         if ("ListStatesWithFluOutbreakIntent".equals(intentName)) {
         	System.out.println("INTENT ListStatesWithFluOutbreakIntent:" + intentName);
@@ -159,14 +159,12 @@ public class FluReportSpeechlet implements Speechlet {
         	System.out.println("INTENT GetFluLevelByStateIntent:" + intentName);
             return GetFluLevelByStateIntent(intent, session, intent.getSlot(SLOT_STATE));
         } else if ("AMAZON.HelpIntent".equals(intentName)) {
-        	
             // Create the plain text output.
             String speechOutput =
-        		"Flu Report can give you the states where the CDC reports that the flu is widespread."
-                + "To get this report say something like, where is the flu or in which states is the "
-                + "flu widespread.  Flu Report can also tell you the prevelance of Flu in any state as "
-                + "reported by the CDC. Ask for this by saying, give me the flu report for Florida or "
-                + "what's the flu prevalence in California.";
+        		"Influenza Information can give you the states where the CDC reports that the influenza is widespread."
+                + "To get this info say something like, where is the influenza or in which states is "
+                + "influenza widespread.  Influenza Information can also tell you the prevalence of influenza in any state."
+                + " Ask for this by saying, give me the influenza report for Florida or what is the influenza prevalence in California.";
             String repromptText = "Would you like to get a state specific report or a list of states with widespread flu?";
 
             return newAskResponse(speechOutput, false, repromptText, false);
@@ -185,9 +183,16 @@ public class FluReportSpeechlet implements Speechlet {
         }
     }
 
-    private SpeechletResponse GetFluLevelByStateIntent(Intent intent, Session session, Slot slot) {
+    public static SpeechletResponse GetFluLevelByStateIntent(Intent intent, Session session, Slot slot) {
+    	 if (slot.equals(null)) {
+            String speechOutput =
+                    "I misunderstood you.  Please make your request again.";
+            // Create the plain text output
+            SsmlOutputSpeech outputSpeech = new SsmlOutputSpeech();
+            outputSpeech.setSsml("<speak>" + speechOutput + "</speak>");
+            return SpeechletResponse.newTellResponse(outputSpeech);
+        } 
     	String stateSlotString = slot.getValue().toString().toUpperCase();
-    	System.out.println("************************");
     	System.out.println("**********stateSlotString"+stateSlotString);
     	String standardizedStateName = null;
     	try{
@@ -196,38 +201,53 @@ public class FluReportSpeechlet implements Speechlet {
     	}catch( NullPointerException npe){
     		System.out.println("The stateSlotString string from the StateSlot param in "
     				+ "convertStateIntentToStateEnum is null. Exception: " + npe);
+    		String speechOutput = "I misunderstood you.  Please make your request again.";
+	    	// Create the plain text output
+	    	SsmlOutputSpeech outputSpeech = new SsmlOutputSpeech();
+	    	outputSpeech.setSsml("<speak>" + speechOutput + "</speak>");
+	    	return SpeechletResponse.newTellResponse(outputSpeech);
     	}
     	try{
     		doc = fluReport.getFluReport();
     	}catch(NullPointerException npe){
     		System.out.println("fluReport.getFluReport(): " + npe);
-    		
     	}
-    	
-    	if(doc.equals(null)){System.out.println("$$$$$NULL FLU REPORT 196");};
+    	String fluLevelforState = null;
+    	if(doc.equals(null)){System.out.println("$$$$$ NULL INFLUENZA INFORMATION");};
     	NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
         Node mostRecentReportNode = XMLPAXParseWebCall.getMostRecentNode(listOfTimeperiods);
         String subtitle = mostRecentReportNode.getAttributes().getNamedItem("subtitle").getNodeValue().toString();
-    	String fluLevelforState = XMLPAXParseWebCall.getStateReport( standardizedStateName, mostRecentReportNode);
-    	System.out.println("list of Prevalence of Flue in "+ standardizedStateName + " is " + fluLevelforState);
+    	try{
+    		fluLevelforState = XMLPAXParseWebCall.getStateReport( standardizedStateName, mostRecentReportNode);
+    		System.out.println("list of Prevalence of influenza in "+ standardizedStateName + " is " + fluLevelforState);
+    	}catch(NullPointerException e){
+    		System.out.println("in GetFluLevelByStateIntent(), fluLevelforState: " + e);
+    	}
         String speechPrefixContent = "<p>For the " + subtitle + "</p> ";
-        String cardPrefixContent = "For the State/Territory for " + standardizedStateName + 
-        		", The CDC report the prevalence of the flu as " + fluLevelforState;
-        String cardTitle = "Flu Report"; 
-        String speechOutput = "For the State/Territory for " + standardizedStateName + 
-        		", The CDC report the prevalence of the flu as " + fluLevelforState;  
-        String repromptText = "Flu Report can give you the states where the CDC reports that the flu is widespread."
-                + "To get this report say something like, where is the flu or in which states is the "
-                + "flu widespread.  Flu Report can also tell you the prevelance of Flu in any state as "
-                + "reported by the CDC. Ask for this by saying, give me the flu report for Florida or "
-                + "what's the flu prevalence in California." + "Would you like to get a state specific "
-        		+ "report or a list of states with widespread flu?";
+        String cardPrefixContent = "For the State of " + standardizedStateName + 
+        		", The CDC report the prevalence of the influenza as " + fluLevelforState + ".";
+        String cardTitle = "Influenza Information"; 
+        String speechOutput = "For the State of " + standardizedStateName + 
+        		", The CDC report the prevalence of the influenza as " + fluLevelforState + ".";  
+        String repromptText = "Influenza Information can give you a list of states where the CDC reports that influenza infections"
+        		+ "are widespread. To get this report say something like, where is the influenza or in which states is the "
+                + "influenza widespread.  Influenza Information can also tell you the prevelance of influenza in any state as "
+                + "reported by the CDC. Ask for this by saying, give me influenza information for Florida or "
+                + "what is the influenza prevalence in California." + "Would you like to get another state specific "
+        		+ "report or a list of states with widespread influenza?";
         String askForNextStep = " Would you like to get a state specific "
-        		+ "report or a list of states with widespread flu?";
-        if (fluLevelforState.isEmpty()) {
+        		+ "report or a list of states with widespread influenza?";
+
+        if ( StringUtils.isEmpty(fluLevelforState) || fluLevelforState == null || doc == null) {  
             speechOutput =
-                    "There is a problem communicating with the CDC at this time."
+                    "There is no report available at this time."
                             + " Please try again later.";
+            // Create the plain text output
+            SsmlOutputSpeech outputSpeech = new SsmlOutputSpeech();
+            outputSpeech.setSsml("<speak>" + speechOutput + "</speak>");
+            return SpeechletResponse.newTellResponse(outputSpeech);
+        } else if (fluLevelforState.equalsIgnoreCase("not found") ) {
+        	speechOutput = "I missunderstood you.  Please make your request again.";
             // Create the plain text output
             SsmlOutputSpeech outputSpeech = new SsmlOutputSpeech();
             outputSpeech.setSsml("<speak>" + speechOutput + "</speak>");
@@ -254,6 +274,7 @@ public class FluReportSpeechlet implements Speechlet {
 	}
 
 	private SpeechletResponse ListStatesWithFluOutbreakIntent(Session session) {
+        System.out.println("In ListStatesWithFluOutbreakIntent();" );
     	doc = fluReport.getFluReport();
     	NodeList listOfTimeperiods = doc.getElementsByTagName("timeperiod");
     	Node mostRecentReportNode = XMLPAXParseWebCall.getMostRecentNode(listOfTimeperiods);
@@ -261,22 +282,21 @@ public class FluReportSpeechlet implements Speechlet {
         listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("[", "");
         listOfStatesWithWidespreadFlu = listOfStatesWithWidespreadFlu.replace("]", "");
         String subtitle = mostRecentReportNode.getAttributes().getNamedItem("subtitle").getNodeValue().toString();
-        System.out.println("In ListStatesWithFluOutbreakIntent();" );
         String speechPrefixContent = "<p>For the " + subtitle + "</p> ";
-        String cardPrefixContent = "The CDC reports that the prevalence of the flu is widespread "
-        		+ "in the following states " + listOfStatesWithWidespreadFlu;
+        String cardPrefixContent = "The CDC reports that the prevalence of the influenza is widespread "
+        		+ "in the following states " + listOfStatesWithWidespreadFlu + ".";
         System.out.println("listOfStatesWithWidespreadFlu: " + listOfStatesWithWidespreadFlu);
-        String cardTitle = "Flu Report, States with widespread flu"; 
-        String speechOutput = "The CDC reports that the prevalence of the flu is widespread "
+        String cardTitle = "Influenza Information, States with widespread influenza"; 
+        String speechOutput = "The CDC reports that the prevalence of influenza is widespread "
         		+ "in the following states " + listOfStatesWithWidespreadFlu;
-        String repromptText = "Flu Report can give you the states where the CDC reports that the flu is widespread."
-                + "To get this report say something like, where is the flu or in which states is the "
-                + "flu widespread.  Flu Report can also tell you the prevelance of Flu in any state as "
-                + "reported by the CDC. Ask for this by saying, give me the flu report for Florida or "
-                + "what's the flu prevalence in California." + "Would you like to get a state specific "
-        		+ "report or a list of states with widespread flu?";
+        String repromptText = "Influenza Information can give you the states where the CDC reports that the influenza is widespread."
+                + "To get this report say something like, where is the influenza or in which states is the "
+                + "influenza widespread.  Influenza Information can also tell you the prevelance of Flu in any state as "
+                + "reported by the CDC. Ask for this by saying, give me the influenza report for Florida or "
+                + "what's the influenza prevalence in California." + "Would you like to get a state specific "
+        		+ "report or a list of states with widespread influenza?";
         String askForNextStep = " Would you like to get a state specific "
-        		+ "report or a list of states with widespread flu?";
+        		+ "report or a list of states with widespread influenza?";
         if (listOfStatesWithWidespreadFlu.isEmpty()) {
             speechOutput =
                     "There is a problem communicating with the CDC at this time."
@@ -322,18 +342,19 @@ public class FluReportSpeechlet implements Speechlet {
      * @return SpeechletResponse object with voice/card response to return to the user
      */
     private SpeechletResponse getWelcomeResponse() {
-        String speechOutput = "Hi, Flu Report can tell you the level of flu in each state or "
-        		+ "get you a list of states where the CDC has classified the level of flu as "
-        		+ "widespread.  Would you like to get a State flu report or to know which states"
-        		+ "have widespread flu?";
+        String speechOutput = "Influenza Info uses information provided by the Centers for Disease Control to tell you "
+        		+ "the level of influenza in any state. Influenza Info can also get you the list of states where the CDC has classified "
+        		+ "the level of influenza as widespread.  To find out the how prevalent influenza infections are in any state say something like, ."
+        		+ "get me the state influenza report for Florida. To get a list of states where influenza is widespread say, ."
+        		+ "which states have widespread influenza?";
         // If the user either does not reply to the welcome message or says something that is not
         // understood, they will be prompted again with this text.
         String repromptText =
-                "Flu Report can give you the states where the CDC reports that the flu is widespread."
-                + "To get this report say something like, where is the flu or in which states is the "
-                + "flu widespread.  Flu Report can also tell you the prevelance of Flu in any state as "
-                + "reported by the CDC. Ask for this by saying, give me the flu report for Florida or "
-                + "what's the flu prevalence in California.";
+                "Influenza Information can give you the states where the CDC reports that the influenza is widespread."
+                + "To get this report say something like, where is the influenza or in which states is the "
+                + "influenza widespread.  Influenza Information can also tell you the prevelance of Flu in any state as "
+                + "reported by the CDC. Ask for this by saying, give me the influenza report for Florida or "
+                + "what's the influenza prevalence in California.";
 
         return newAskResponse(speechOutput, false, repromptText, false);
     }
@@ -349,11 +370,12 @@ public class FluReportSpeechlet implements Speechlet {
      * @return the States ENUM representation of that slot state value
      */
     
-    private String convertStateIntentToStateEnum(Slot stateSlot) throws NullPointerException {
+    private static String convertStateIntentToStateEnum(Slot stateSlot) throws NullPointerException {
     	String stateSlotString = stateSlot.getValue().toString().toUpperCase();
     	log.info("stateSlotString"+stateSlotString);
     	if(!stateSlotString.isEmpty()){
     		String state = States.parse(stateSlotString).toString().toUpperCase();
+    		state = state.replace("_"," ");
     		log.info("state"+state);
     		return state;
     	}else{
@@ -374,7 +396,7 @@ public class FluReportSpeechlet implements Speechlet {
      *            whether the reprompt text is of type SSML
      * @return SpeechletResponse the speechlet response
      */
-    private SpeechletResponse newAskResponse(String stringOutput, boolean isOutputSsml,
+    private static SpeechletResponse newAskResponse(String stringOutput, boolean isOutputSsml,
             String repromptText, boolean isRepromptSsml) {
         OutputSpeech outputSpeech, repromptOutputSpeech;
         if (isOutputSsml) {
