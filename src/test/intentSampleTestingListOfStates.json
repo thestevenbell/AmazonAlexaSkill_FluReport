@@ -2,7 +2,7 @@
   "session": {
     "sessionId": "SessionId.db0f0f1c-0ada-47f9-b9f0-b607b8b2f3f8",
     "application": {
-      "applicationId": "amzn1.ask.skill.72f2f95f-8548-442f-80b9-cb96c3b6eb2e"
+      "applicationId": "amzn1.ask.skill.72f2f95f-85482e"
     },
     "attributes": {},
     "user": {
@@ -12,7 +12,7 @@
   },
   "request": {
     "type": "IntentRequest",
-    "requestId": "EdwRequestId.cb9c99cb-11a3-418d-b7be-1f85ee63131d",
+    "requestId": "EdwRequestId.cb9c99cb-11a3-418d-b7be-1d",
     "locale": "en-US",
     "timestamp": "2016-12-18T20:12:06Z",
     "intent": {

@@ -1,4 +1,4 @@
-# Flu Report, an Alexa Skill to inform user of Flu prevalence by US state
+# Influenza Info, an Alexa Skill to inform user of Flu prevalence by US state
 #### [AWS Lambda](http://aws.amazon.com/lambda) function written in Java and hosted as an Amazon Web Services Lambda.
 Derived from the Alexa SDK found here : https://github.com/amzn/alexa-skills-kit-java.
 ## Home Repo: 
@@ -10,11 +10,11 @@ Derived from the Alexa SDK found here : https://github.com/amzn/alexa-skills-kit
 - list of values for any custom slot types.(not used in this project as Amazon has a standard US States Slot type already defined)
 - States Enum, this used to take user slot in put and the parsed state fields from the CDC API and parse them into the same format.  
 This file is derived from https://github.com/AustinC/UnitedStates/blob/master/src/main/java/unitedstates/US.java . Thanks AustinC for
-making this openly available. The list did not include teritories, so Guam, Puerto Rico and the Virgin Islands were added to the list.  
+making this openly available. The list did not include territories, so Guam, Puerto Rico and the Virgin Islands were added to the list.  
 - FluReportSpeechlet.java, this is where the majority of the logic for flow of the Skill resides.  It handles the input of intents and 
 slots and returns the appropriate speech text or terminates the session as necessary.  
 - FluReportSpeechletRequestStreamHandler.java, provides the entry point to application from an outside application like the associated
- Alexa Skill app Flu Report.  The name of this class must be provided during the Lambda setup so that the platform can map to it.  Improper 
+ Alexa Skill app Influenza Info.  The name of this class must be provided during the Lambda setup so that the platform can map to it.  Improper 
  reference to the class or any malformation of this class will error out the Lambda.  
 - fluReportCDCXML.java, set up as a singleton so that there is only one instance of the class holding the CDC fle report.  This class
 makes a call to get the flu report and saves is as type Document.  The document is parsed as in PAX style XML.  In a normal server hosted
@@ -39,12 +39,12 @@ development and testing.  Also contains the core logic to return the states with
 given State slot.  
 
 #### Skill Description:
-Flu Report provides the prevalence of the flu for any user specified US state and the list of states where the flu is widespread. Information is provided by the Center for Disease Control at the following address https://www.cdc.gov/flu/weekly/.  No special hardware or accounts are needed to use the app.  Simply follow the voice prompts to ask for a report naming the state you are interested in knowing more about.  You may also ask for a list of states where the CDC reports the flu as widespread.  The application is designed to provide the most recent information available from the CDC but no guarantee is made that the information is up to date or accurate.  This tool does not provide medical advice, and is for informational and educational purposes only, and is not a substitute for professional medical advice, treatment or diagnosis. Call your doctor to receive medical advice. If you think you may have a medical emergency, please dial 911.
+Influenza Info provides the prevalence of the flu for any user specified US state and the list of states where the flu is widespread. Information is provided by the Center for Disease Control at the following address https://www.cdc.gov/flu/weekly/.  No special hardware or accounts are needed to use the app.  Simply follow the voice prompts to ask for a report naming the state you are interested in knowing more about.  You may also ask for a list of states where the CDC reports the flu as widespread.  The application is designed to provide the most recent information available from the CDC but no guarantee is made that the information is up to date or accurate.  This tool does not provide medical advice, and is for informational and educational purposes only, and is not a substitute for professional medical advice, treatment or diagnosis. Call your doctor to receive medical advice. If you think you may have a medical emergency, please dial 911.
 
   This sample shows how to create a Lambda function for handling Alexa Skill requests that:
   
   <ul>
-  <li><b>Web service</b>: communicate with an external web service to get the flu report for specified state 
+  <li><b>Web service</b>: communicate with an external web service to get the Influenza Info for specified state 
   or the states with flu outbreaks. 
   </li>
   </li>
@@ -58,7 +58,7 @@ Flu Report provides the prevalence of the flu for any user specified US state an
   <p>
   <b>One-shot model</b>
   <p>
-  User: "Alexa, ask Flu Report what the flu status is for Puerto Rico."
+  User: "Alexa, ask Influenza Info what the flu status is for Puerto Rico."
   <p>
   Alexa: "The CDC report that flu is Widespread in Puerto Rico . Wanna know about another state?"
   <p>
@@ -69,13 +69,13 @@ Flu Report provides the prevalence of the flu for any user specified US state an
   
   <b>Dialog model</b>
   <p>
-  User: "Alexa, open Flu Report"
+  User: "Alexa, open Influenza Info"
   <p>
-  Alexa: ""Hi, Flu Report can tell you the level of flu in each state or get you a list of 
+  Alexa: ""Hi, Influenza Info can tell you the level of flu in each state or get you a list of 
   states where the CDC has classified the level of flu as widespread.  Would you like to get 
-  a State flu report or to know which states have widespread flu?";"
+  State Influenza Info or to know which states have widespread flu?";"
   <p>
-  User: "I would like a State flu report for Guam."
+  User: "I would like the Influenza Info for Guam."
   <p>
   Alexa: "The CDC reports that the flu is Widespread in Guam. Would you like the list of states where 
   the flu is widespread?"
@@ -83,11 +83,11 @@ Flu Report provides the prevalence of the flu for any user specified US state an
   User: "Yes."
   <p>
   Alexa: "The flu is reported by the CDC to be widespread in Guam, Puerto Rico and the Virgin Islands. 
-  Would you like to get a flu report for a specific state?"
+  Would you like to get a Influenza Info for a specific state?"
   <p>
   User: "No."
   <p>
-  Alexa: "Ok, Flu Report signing out. Good bye!"
+  Alexa: "Ok, Influenza Info signing out. Good bye!"
   <p>
  
 ### Setup
@@ -111,7 +111,7 @@ To run this example skill you need to do two things. The first is to deploy the 
 
 ### Alexa Skill Setup
 1. Go to the [Alexa Console](https://developer.amazon.com/edw/home.html) and click Add a New Skill.
-2. Set "Flu Report" as the skill name and "flu report" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask Flu Report what the prevalence of flu in Arizona is."
+2. Set "Influenza Info" as the skill name and "Influenza Info" as the invocation name, this is what is used to activate your skill. For example you would say: "Alexa, Ask Influenza Info what the prevalence of flu in Arizona is."
 3. Copy the Intent Schema from the included IntentSchema.json.
 4. Copy the Sample Utterances from the included SampleUtterances.txt. Click Next.
 5. Select the Lambda ARN for the skill Endpoint and paste the ARN copied from above. Click Next.
@@ -130,8 +130,6 @@ easier than trying to configure one from scratch as all of
 Id fields are already poputed with valid input.
 - Source Data API: http://www.cdc.gov/flu/weekly/flureport.xml
 - The Sysout/Console logs in the code have been left intact to aid others in picking up the flow of the code.   
-- 
-
 
 ### GENERAL ALEXA STUFF
 #### Alexa Skills Kit Documentation
