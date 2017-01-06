@@ -87,6 +87,20 @@ AMAZON.StopIntent stop
 AMAZON.StopIntent quit
 AMAZON.StopIntent break
 
+
+/********
+Example Phrases entered in the Publishing Information tab in the Alexa Skill panel
+********/
+
+Review your sample utterances that will appear on the skill detail card in the Alexa App. These phrases will help users get started and access your skill’s core functionality.
+ 
+Alexa open influenza info
+ 
+Alexa ask influenza info what is the influenza information for Oklahoma
+ 
+Alexa ask influenza info to give me the list of states where the flu is widespread
+
+
 /********
 DO NOT USE BELOW
 ********/
